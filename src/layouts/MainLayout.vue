@@ -1,43 +1,38 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+
+    <q-drawer class="aside" v-model="leftDrawerOpen" show-if-above bordered width="250" >
+      <q-list>
+        <q-item-label header> Navigation </q-item-label>
+
+        <q-item clickable v-for="nav in navs" :key="nav.id" :to="nav.to">
+          <q-item-section avatar>
+            <q-icon :name="nav.icon" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ nav.label }}</q-item-label>
+          </q-item-section>
+        </q-item>
+
+      </q-list>
+    </q-drawer>
+
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-avatar>
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+        </q-avatar>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title>Todo App</q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+    <q-footer class="footer">
+      <q-tabs>
+        <q-route-tab :icon="nav.icon" :label="nav.label" to="/" v-for="nav in navs" :key="nav.id" />
+      </q-tabs>
+    </q-footer>
 
     <q-page-container>
       <router-view />
@@ -45,61 +40,55 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+import { ref } from "vue"
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+export default {
+  setup() {
+    const leftDrawerOpen = ref(false);
 
-const leftDrawerOpen = ref(false)
+    const navs = ref([
+      {
+        label: 'Todo',
+        icon: 'list',
+        to: '/',
+        id: 1,
+      },
+      {
+        label: 'Settings',
+        icon: 'settings',
+        to: '/settings',
+        id: 2,
+      },
+    ])
 
-const essentialLinks = ref([...linksList])
+    const toggleLeftDrawer = () => {
+      leftDrawerOpen.value = !leftDrawerOpen.value;
+    }
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+    return {
+      leftDrawerOpen,
+      navs,
+      toggleLeftDrawer,
+    }
+  },
 
+  mounted() {
+    console.log(1)
+  },
+};
 </script>
+
+<style lang="scss">
+ @media screen and (min-width: 767px) {
+  .footer {
+    display: none;
+  }
+ }
+
+ @media screen and (max-width: 768px) {
+  .aside {
+    display: none;
+  }
+ }
+</style>
