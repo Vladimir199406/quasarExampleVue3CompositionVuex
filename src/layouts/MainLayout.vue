@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <q-drawer class="aside" v-model="leftDrawerOpen" show-if-above bordered width="250" >
+    <q-drawer class="aside" v-model="leftDrawerOpen" show-if-above bordered style="width: 250px;" >
       <q-list>
         <q-item-label header> Navigation </q-item-label>
 
