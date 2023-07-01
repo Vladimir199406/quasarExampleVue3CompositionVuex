@@ -28,7 +28,7 @@
     </q-item-section>
 
     <q-item-section side class="column">
-      <q-btn @click="promptToDelete(id)" flat round color="red" icon="delete" size="12px" dense />
+      <q-btn @click.stop="promptToDelete(props.id)" flat round color="red" icon="delete" size="12px" dense />
     </q-item-section>
   </q-item>
 </template>
@@ -36,11 +36,14 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { useQuasar } from 'quasar'
 
 export default {
   props: ['task', 'id'],
   setup(props) {
     const store = useStore()
+
+    const $q = useQuasar()
 
     const updateTaskPayload = ref(
       {
@@ -51,10 +54,23 @@ export default {
       }
     )
 
+    const promptToDelete = (id) => {
+      $q.dialog({
+        dark: true,
+        title: 'Confirm',
+        message: 'Are You sure You want to DELETE?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        store.dispatch('tasks/deleteTask', id)
+      })
+    }
+
     return {
       props,
       updateTaskPayload,
-      updateTask: (updateTaskPayload) => store.dispatch('tasks/updateTask', updateTaskPayload)
+      promptToDelete,
+      updateTask: (payload) => store.dispatch('tasks/updateTask', payload),
     }
   }
 };
