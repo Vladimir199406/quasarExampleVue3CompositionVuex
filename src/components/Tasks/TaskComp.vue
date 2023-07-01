@@ -1,5 +1,5 @@
 <template>
-  <q-item @click="props.task.completed = !props.task.completed" v-ripple clickable
+  <q-item @click="updateTask(updateTaskPayload)" v-ripple clickable
     :class="!props.task.completed ? 'bg-orange-1' : 'bg-green'">
     <q-item-section side top>
       <q-checkbox v-model="props.task.completed"></q-checkbox>
@@ -26,15 +26,35 @@
         </div>
       </div>
     </q-item-section>
+
+    <q-item-section side class="column">
+      <q-btn @click="promptToDelete(id)" flat round color="red" icon="delete" size="12px" dense />
+    </q-item-section>
   </q-item>
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   props: ['task', 'id'],
   setup(props) {
+    const store = useStore()
+
+    const updateTaskPayload = ref(
+      {
+        id: props.id, 
+        updates: {
+          completed: !props.task.completed
+        }
+      }
+    )
+
     return {
-      props
+      props,
+      updateTaskPayload,
+      updateTask: (updateTaskPayload) => store.dispatch('tasks/updateTask', updateTaskPayload)
     }
   }
 };
