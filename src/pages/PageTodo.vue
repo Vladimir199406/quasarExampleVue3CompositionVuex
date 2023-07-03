@@ -8,6 +8,15 @@
         :id="key"
       />
     </q-list>
+
+    <div class="absolute-bottom text-center q-mb-lg">
+      <q-btn round color="primary" icon="add" size="24px" />
+    </div>
+
+    <q-dialog v-model="showAddTask">
+      <AddTask />
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -15,10 +24,12 @@
 import { ref, computed, onMounted } from "vue"
 import { useStore } from 'vuex'
 import TaskComp from '../components/Tasks/TaskComp.vue'
+import AddTask from '../components/Tasks/Modals/AddTask.vue'
 
 export default {
   components: {
-    TaskComp
+    TaskComp,
+    AddTask
   },
 
   setup() {
@@ -26,8 +37,11 @@ export default {
 
     const tasks = computed(() => store.getters['tasks/tasks'])
 
+    const showAddTask = ref(true)
+
     return {
-      tasks
+      tasks,
+      showAddTask
     }
 
   },
