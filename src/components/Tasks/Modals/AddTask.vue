@@ -46,7 +46,7 @@
                   transition-show="scale"
                   transition-hide="scale"
                 >
-                  <q-time v-model="time">
+                  <q-time v-model="taskToSubmit.dueTime">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -66,10 +66,14 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref } from "vue"
+import { useStore } from 'vuex'
+
 
 export default {
   setup() {
+    const store = useStore()
+
     const taskToSubmit = ref({
       name: "",
       dueDate: "",
@@ -88,7 +92,7 @@ export default {
     }
 
     const submitTask = () => {
-      console.log('FLAG!!!')
+      store.dispatch('tasks/addTask', taskToSubmit)
     }
 
     return {

@@ -1,5 +1,8 @@
 import { uid } from 'quasar'
 
+let taskId = uid()
+
+
 const state = {
 
   tasks: [
@@ -67,7 +70,6 @@ const actions = {
     commit('deleteTask', id)
   },
   addTask({commit}, task) {
-    const uid = uid()
 
     const payload = {
       id: taskId,
