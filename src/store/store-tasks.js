@@ -1,34 +1,61 @@
+import { uid } from 'quasar'
+
 const state = {
 
-  tasks: {
-    'ID1'  : {
+  tasks: [
+    {
+      id: 'id1',
       name: "go to somewhere",
-      completed: false,
       dueDate: "2023/06/30",
       dueTime: "18.30",
-    },
-    'ID2'  : {
-      name: "get cherrys",
       completed: false,
+    },
+    {
+      id: 'id2',
+      name: "get cherrys",
       dueDate: "2023/08/14",
       dueTime: "15.20",
-    },
-    'ID3'  : {
-      name: "get apples",
       completed: false,
+    },
+    {
+      id: 'id3',
+      name: "get apples",
       dueDate: "2023/07/05",
       dueTime: "12.30",
+      completed: false,
     },
-  }
+  ]
 }
+
 
 const mutations = {
   updateTask(state, payload) {
-    Object.assign(state.tasks[payload.id], payload.updates)
+    const taskSameId = state.tasks.filter(task => task.id === payload.id)
+
+    Object.assign(taskSameId[0], payload.updates)
+
+    console.log(state.tasks)
   },
   deleteTask(state, id) {
-    console.log(id)
-    delete state.tasks[id]
+    let indexToDelete = 0
+
+    state.tasks.forEach((task, index) => {
+      if(task.id === id) {
+        indexToDelete = index
+        console.log(indexToDelete)
+      }
+    })
+
+    state.tasks.splice(indexToDelete, 1)
+  },
+  addTask(state, payload) {
+    state.tasks.push({
+      id: payload.id,
+      name: payload.name,
+      dueDate: payload.dueTime,
+      dueTime: payload.dueTime,
+      completed: false,
+    })
   }
 }
 
@@ -38,8 +65,19 @@ const actions = {
   },
   deleteTask({commit}, id) {
     commit('deleteTask', id)
+  },
+  addTask({commit}, task) {
+    const uid = uid()
+
+    const payload = {
+      id: taskId,
+      task: task
+    }
+
+    commit('addTask', payload)
   }
 }
+ 
 
 const getters = {
   tasks: (state) => {

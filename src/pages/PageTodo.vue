@@ -5,7 +5,6 @@
         v-for="(task, key) in tasks" 
         :key="key"
         :task="task" 
-        :id="key"
       />
     </q-list>
 
