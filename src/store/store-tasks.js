@@ -54,9 +54,9 @@ const mutations = {
   addTask(state, payload) {
     state.tasks.push({
       id: payload.id,
-      name: payload.name,
-      dueDate: payload.dueTime,
-      dueTime: payload.dueTime,
+      name: payload.task.name,
+      dueDate: payload.task.dueDate,
+      dueTime: payload.task.dueTime,
       completed: false,
     })
   }

@@ -87,12 +87,12 @@ export default {
       name.value.validate()
       
       if (!name.value.hasError) {
-        submitTask()
+        submitTask(taskToSubmit.value)
       }
     }
 
-    const submitTask = () => {
-      store.dispatch('tasks/addTask', taskToSubmit)
+    const submitTask = (task) => {
+      store.dispatch('tasks/addTask', task)
     }
 
     return {
