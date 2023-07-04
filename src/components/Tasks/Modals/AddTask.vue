@@ -71,7 +71,10 @@ import { useStore } from 'vuex'
 
 
 export default {
-  setup() {
+
+  emits: ['close'],
+
+  setup(props, {emit}) {
     const store = useStore()
 
     const taskToSubmit = ref({
@@ -93,6 +96,7 @@ export default {
 
     const submitTask = (task) => {
       store.dispatch('tasks/addTask', task)
+      emit('close')
     }
 
     return {

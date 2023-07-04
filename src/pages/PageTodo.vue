@@ -8,12 +8,12 @@
       />
     </q-list>
 
-    <div class="absolute-bottom text-center q-mb-lg">
+    <div @click="showAddTask = true" class="absolute-bottom text-center q-mb-lg">
       <q-btn round color="primary" icon="add" size="24px" />
     </div>
 
     <q-dialog v-model="showAddTask">
-      <AddTask />
+      <AddTask @close="showAddTask = false" />
     </q-dialog>
 
   </q-page>
@@ -36,7 +36,7 @@ export default {
 
     const tasks = computed(() => store.getters['tasks/tasks'])
 
-    const showAddTask = ref(true)
+    const showAddTask = ref(false)
 
     return {
       tasks,
